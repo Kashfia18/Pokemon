@@ -58,12 +58,18 @@ public class MainActivity extends AppCompatActivity {
         protected Void doInBackground(Void... arg0) {
             HttpHandler sh = new HttpHandler();
 
+
             String url = "https://raw.githubusercontent.com/Biuni/PokemonGO-Pokedex/master/pokedex.json";
 
 
             String jsonString = "";
             try {
                 // TODO: make a request to the URL
+                //By making the HTTP Request, we can successfully request
+                // information from the URL, and start grabbing necessary data to
+                // display in our app. This is the first step we must take to start our process
+                // of HTTP Networking.
+                jsonString=sh.makeHttpRequest(createUrl(url));
 
             } catch (IOException e) {
                 return null;
@@ -73,13 +79,18 @@ public class MainActivity extends AppCompatActivity {
             if (jsonString != null) {
                 try {
                     //TODO: Create a new JSONObject
+                    JSONObject jsonObject= new JSONObject(jsonString);
 
                     // TODO: Get the JSON Array node and name it "pokemons"
-
+                    JSONArray pokemons= jsonObject.getJSONArray("pokemon");
 
                     // looping through all Contacts
                     for (int i = 0; i < pokemons.length(); i++) {
                         //TODO: get the JSONObject and its three attributes
+                        JSONObject element= pokemons.getJSONObject(i);
+                        String name=element.getString("name");
+                        String id= element.getString("id");
+                        String candy=element.getString("candy");
 
 
                         // tmp hash map for a single pokemon
